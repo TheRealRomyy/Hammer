@@ -1,0 +1,5 @@
+# The prefix of the plugin
+prefix: "[&6Hammer&r]"
+
+# The name of the hammer
+hammerName: "&6Hammer"
