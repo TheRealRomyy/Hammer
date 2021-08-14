@@ -21,14 +21,14 @@ public class GiveHammerCommand implements CommandExecutor {
         if(sender instanceof Player player) {
 
             if(!player.hasPermission("hammer.give")) {
-                player.sendMessage(main.getPrefix() + "§cTu n'as pas accès a cette commande !");
+                player.sendMessage(main.getPrefix() + "§cTu n'as pas acces a cette commande !");
                 return false;
             }
 
             ItemStack hammer = main.buildHammer();
             player.getInventory().addItem(hammer);
 
-            player.sendMessage(main.getPrefix() + "§aTu as reçu le hammer !");
+            player.sendMessage(main.getPrefix() + "§aTu as recu le hammer !");
 
             return true;
 

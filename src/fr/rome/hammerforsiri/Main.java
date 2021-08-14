@@ -46,15 +46,4 @@ public class Main extends JavaPlugin {
 
         return hammer;
     };
-
-    public ItemStack buildFakeHammer() {
-        ItemStack hammer = new ItemStack(Material.DIAMOND_PICKAXE, 1);
-        ItemMeta hammerM = hammer.getItemMeta();
-
-        assert hammerM != null;
-        hammerM.setDisplayName("§cFake Hammer");
-        hammer.setItemMeta(hammerM);
-
-        return hammer;
-    };
 }

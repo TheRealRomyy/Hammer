@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.constant.Constable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -31,17 +32,16 @@ public class BlockBreakListener implements Listener {
 
         if(itemInHand.hasItemMeta() && Objects.requireNonNull(itemInHand.getItemMeta()).hasDisplayName() && itemInHand.getItemMeta().getDisplayName().equals(main.getHammerName())) {
 
-            ItemStack hammer = main.buildFakeHammer();
+            ItemStack hammer = main.buildHammer();
 
             ArrayList<Location> locs = new ArrayList<Location>();
 
-            Double x = location.getX();
-            Double y = location.getY();
-            Double z = location.getZ();
+            double x = location.getX();
+            double y = location.getY();
+            double z = location.getZ();
 
-            switch (getCardinalDirection(player, block)) {
-                case "South":
-                case "North":
+            switch (getDirection(player, block)) {
+                case 0: // North or South
 
                     locs.add(new Location(location.getWorld(), x, y+1, z));
                     locs.add(new Location(location.getWorld(), x, y-1, z));
@@ -53,8 +53,7 @@ public class BlockBreakListener implements Listener {
                     locs.add(new Location(location.getWorld(), x, y-1, z-1));
 
                     break;
-                case "East":
-                case "West":
+                case 1: // East or West
 
                     locs.add(new Location(location.getWorld(), x, y+1, z));
                     locs.add(new Location(location.getWorld(), x, y-1, z));
@@ -66,7 +65,7 @@ public class BlockBreakListener implements Listener {
                     locs.add(new Location(location.getWorld(), x-1, y-1, z));
 
                     break;
-                case "down":
+                case 2: // Down
 
                     locs.add(new Location(location.getWorld(), x, y, z+1));
                     locs.add(new Location(location.getWorld(), x, y, z-1));
@@ -93,36 +92,23 @@ public class BlockBreakListener implements Listener {
         };
     };
 
-    public static String getCardinalDirection(Player player, Block block) {
-        if(player.getLocation().getY() > block.getLocation().getY()) return "down";
+    private static Integer getDirection(Player player, Block block) {
+        if(player.getLocation().getY() > block.getLocation().getY()) return 2; // Down
         double rot = (player.getLocation().getYaw() - 90) % 360;
-        if (rot < 0) {
-            rot += 360.0;
-        }
-        return getDirection(rot);
-    }
+        if (rot < 0) rot += 360.0;
 
-    private static String getDirection(double rot) {
-        if (0 <= rot && rot < 22.5) {
-            return "North";
-        } else if (22.5 <= rot && rot < 67.5) {
-            return "North";
-        } else if (67.5 <= rot && rot < 112.5) {
-            return "East";
-        } else if (112.5 <= rot && rot < 157.5) {
-            return "East";
-        } else if (157.5 <= rot && rot < 202.5) {
-            return "South";
-        } else if (202.5 <= rot && rot < 247.5) {
-            return "South";
-        } else if (247.5 <= rot && rot < 292.5) {
-            return "West";
-        } else if (292.5 <= rot && rot < 337.5) {
-            return "West";
+        if (0 <= rot && rot < 67.5) {
+            return 0; // North
+        } else if (67.5 <= rot && rot < 157.5) {
+            return 1; // East
+        } else if (157.5 <= rot && rot < 247.5) {
+            return 0; // South
+        } else if (247.5 <= rot && rot < 337.5) {
+            return 1; // West
         } else if (337.5 <= rot && rot < 360.0) {
-            return "North";
+            return 0; // North
         } else {
-            return null;
+            return 3;
         }
     }
 }
